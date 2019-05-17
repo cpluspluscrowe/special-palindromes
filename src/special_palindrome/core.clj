@@ -33,7 +33,13 @@
     ))
 
 
-
+(defn is-palindrome [letters]
+  (cond (= (count letters) 1) true
+        (= (count letters) 0) false
+        :else
+  (and
+   (= (first letters) (nth letters (- (count letters) 1)))
+   (is-palindrome (subvec letters 1 (- (count letters) 1))))))
 
 
 (defn get-subsequence [sequence i j]
@@ -43,13 +49,15 @@
 (defn get-subsequences
   ([sequence]
    (let [indexes (range (+ 1 (count sequence)))]
-     (set (reduce concat (map #(map (partial get-subsequence sequence %) (range % (count indexes))) indexes)))
+     (reduce concat (map #(map (partial get-subsequence sequence %) (range % (count indexes))) indexes))
      )))
 
 (defn -main [& args]
-  (let [input "asasd"
+  (let [input "aaaa"
         as-array (vec (char-array input))
-        subsequences (get-subsequences as-array)]
-    (println subsequences)
+        subsequences (get-subsequences as-array)
+    palindromes (filter is-palindrome subsequences)]
+    (println palindromes)
+    (println (count palindromes))
     ))
 
