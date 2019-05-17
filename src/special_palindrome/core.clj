@@ -23,12 +23,33 @@
         (flatten (reduce conj
                 (map #(get-permutations letters-to-add (conj built-string %)  %) (keys letters-to-add)))))))))
 
-(defn -main [& args]
+(defn -main2 [& args]
   (let [input "asasd"
         as-array (seq (char-array input))
         permutations (get-permutations as-array)]
     (println as-array)
     (println (type as-array))
     (println permutations)
+    ))
+
+
+
+
+
+(defn get-subsequence [sequence i j]
+  (cond (< i j) (subvec sequence i j)
+        :else ""))
+
+(defn get-subsequences
+  ([sequence]
+   (let [indexes (range (+ 1 (count sequence)))]
+     (set (reduce concat (map #(map (partial get-subsequence sequence %) (range % (count indexes))) indexes)))
+     )))
+
+(defn -main [& args]
+  (let [input "asasd"
+        as-array (vec (char-array input))
+        subsequences (get-subsequences as-array)]
+    (println subsequences)
     ))
 
